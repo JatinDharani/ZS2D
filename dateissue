@@ -1,0 +1,19 @@
+	onConfirmDetails:function(){
+			this.uDialog.close();
+		 var bValidated = this._validateFormInput();
+		 if(bValidated){
+		 var oModel = this.getOwnerComponent().getModel();
+		 // start of addition for date issue
+		 var dateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
+				pattern: "yyyyMMdd"
+			});
+		 var oDate = dateFormat.format(this.getView().getModel("clientModel").getProperty("/DeliveryDate/value"));
+		 // end of addition of date issue
+		 	var oData = {"ShipPoint":this.getView().getModel("clientModel").getProperty("/ShipPoint/value"),
+		 		"DeliveryDate":oDate, // addition for date issue
+		 		"DefaultPrinter":this.getView().getModel("clientModel").getProperty("/DefaultPrinter/value"),
+		 		"UserId":"DUMMY"
+		 	};
+		 		var oCreateDefaultsPromise = this._prepareODataPromise("create","/UserDefaultSet",oData,null,oModel);
+		 }
+		}
